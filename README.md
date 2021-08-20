@@ -19,4 +19,4 @@ Login :
 curl -H "Content-Type: application/json" --data "{\"userIdentity\":\"example@example.com\", \"password\":\"example_password\"}" http://localhost:6000/v1/auth/login
 
 Logout : 
-url -H "Content-Type: application/json" -H "Authorization: Bearer  <access token>" --data "{\"auth_token\":\" <access token> \"}" http://localhost:6000/v1/auth/logout
+curl -H "Content-Type: application/json" -H "Authorization: Bearer Access_Token" --data "{\"auth_token\":\" Access_Token \"}" http://localhost:6000/v1/auth/logout
