@@ -13,10 +13,10 @@ To start the app go to the app folder and open command prompt from there and typ
 Curl commands to test the app : 
 
 Register : 
-curl -H "Content-Type: application/json" --data "{\"username\":\"example_name\",\"password\":\"example_password\", \"email\":\"example@example.com\"}" http://localhost:6000/v1/auth/register
+curl -H "Content-Type: application/json" --data "{\"username\":\"example_name\",\"password\":\"example_password\", \"email\":\"example@example.com\",\"pincode\":\"000000\",\"phoneNumber\":\"8888888888\", \"address\":\"Hogwarts\"}" http://localhost:5000/v1/auth/register
 
 Login : 
-curl -H "Content-Type: application/json" --data "{\"userIdentity\":\"example@example.com\", \"password\":\"example_password\"}" http://localhost:6000/v1/auth/login
+curl -H "Content-Type: application/json" --data "{\"userIdentity\":\"example@example.com\", \"password\":\"example_password\"}" http://localhost:5000/v1/auth/login
 
 Logout : 
-curl -H "Content-Type: application/json" -H "Authorization: Bearer Access_Token" --data "{\"auth_token\":\" Access_Token \"}" http://localhost:6000/v1/auth/logout
+curl -H "Content-Type: application/json" -H "Authorization: Bearer Access_Token" --data "{\"auth_token\":\" Access_Token \"}" http://localhost:5000/v1/auth/logout
