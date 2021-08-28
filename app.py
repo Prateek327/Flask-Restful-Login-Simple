@@ -47,6 +47,7 @@ LOGOUT_SUCCESSFUL = ({"message" : "Logout Successful"}, 200)
 class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(length=80))
     username = db.Column(db.String(length=80))
     password = db.Column(db.LargeBinary(length=60), nullable=False)
     email = db.Column(db.String(length=80), unique=True, nullable=False)
@@ -74,11 +75,15 @@ class User(db.Model):
         return False
     
     def __repr__(self):
-        return "<User(id='%s', name='%s', password='%s', email='%s', created='%s')" % (
+        return "<User(id='%s', name='%s', username='%s', password='%s', email='%s', pincode='%s', address='%s', phoneNumber='%s', created='%s')" % (
             self.id,
+            self.name,
             self.username,
             self.password,
             self.email,
+            self.pincode,
+            self.address,
+            self.phoneNumber,
             self.created
         )
 
@@ -112,19 +117,20 @@ class Index(Resource):
 class Register(Resource):
     @staticmethod
     def post():
+            name = request.json.get("name").strip()
             username = request.json.get("username").strip()
-            unhashedPassword = request.json.get("password")
+            unhashedPassword = request.json.get("password").strip()
             email = request.json.get("email").strip()
             phoneNumber = request.json.get("phoneNumber")
             pincode = request.json.get("pincode")
             address = request.json.get("address")
-            if username is None or unhashedPassword is None or email is None or phoneNumber is None or pincode is None or address is None:
+            if name is None or username is None or unhashedPassword is None or email is None or phoneNumber is None or pincode is None or address is None:
                 return INVALID_INPUT_422
             password = bcrypt.hashpw(unhashedPassword.strip().encode("utf-8"), bcrypt.gensalt())
             user = User.query.filter_by(email=email).first()
 
             if not user:
-                    user = User(username=username, password=password, email=email, phoneNumber=phoneNumber, pincode=pincode, address=address, created=datetime.utcnow())
+                    user = User(name=name, username=username, password=password, email=email, phoneNumber=phoneNumber, pincode=pincode, address=address, created=datetime.utcnow())
                     db.session.add(user)
                     db.session.commit()
 
@@ -145,7 +151,6 @@ class Login(Resource):
             return INVALID_INPUT_422
     
         user = User.query.filter_by(username = userIdentity).first()
-
         if user is None:
             user = User.query.filter_by(email = userIdentity).first()
             if user is None:
